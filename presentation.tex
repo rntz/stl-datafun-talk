@@ -1,0 +1,102 @@
+\documentclass[xcolor=table]{beamer}
+
+%% apparently this magic helps avoid the dreaded
+%% ``Too many math alphabets used in version normal''
+%% error. Yuk.
+\newcommand\hmmax{0}
+\newcommand\bmmax{0}
+%% end magic
+
+\usepackage{amssymb,amsmath,amsthm}
+\usepackage{latexsym}
+
+\usepackage{array}
+
+\usepackage{url}
+\usepackage{hyperref}
+
+%% uses the AMS Euler math font.
+\usepackage{euler}
+
+%% for coloneqq
+%% \usepackage{mathtools}
+
+%% %% for \underaccent
+%% \usepackage{accents}
+
+% for semantic brackets
+%% \usepackage{stmaryrd}
+
+%% % for inference rules
+%% \usepackage{proof}
+
+%% %% for mathpar environment
+%% \usepackage{mathpartir}
+
+% for \scalebox, \rotatebox
+%% \usepackage{graphicx}
+
+%% %% for drawing Hasse diagram
+%% \usepackage{tikz}
+
+%% %% for censoring things
+%% \usepackage{censor}
+
+
+%% configuration
+\rowcolors{2}{white}{gray!25}
+
+
+%% Commands
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\x}{\times}
+
+
+%% Metadata
+\title{Datafun}
+\subtitle{a functional query language}
+\author{Michael Arntzenius
+  \newline\href{mailto:daekharel@gmail.com}{daekharel@gmail.com}
+  \newline\url{http://www.rntz.net}}
+%% TODO:
+%% - http://www.rntz.net
+%% - daekharel@gmail.com
+\date{Strange Loop, September 2017}
+
+\begin{document}
+
+\maketitle
+
+
+\begin{frame}\Large
+  %% TODO: grab pithier text from abstract
+  \center \textbf{What if our programming languages worked more like our query
+  languages?}
+\end{frame}
+
+\begin{frame}\Large
+  \begin{enumerate}
+    \itemsep 1.5em
+  \item What's a functional query language?
+  \item Fixed points \& where to find them
+  \item Living with change
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Data as tables}
+
+  \begin{center}
+    \begin{tabular}{l|l}
+      \textbf{Parent} & \textbf{Child}\\\hline
+      Arathorn & Aragorn\\
+      Drogo & Frodo\\
+      E\"arwen & Galadriel\\
+      Finarfin & Galadriel\\
+      \rowcolor{white}
+      \hfill\vdots & \hfill\vdots
+    \end{tabular}
+  \end{center}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,76 @@
+* Notes
+
+40 or even 35 minutes is a long time.
+- have a 1-2 minute stretch break in the middle?
+- break talk into two segments?
+
+with 40 minutes it *is* possible to lose track of your place in a complex
+argument structure.
+
+People aren't giving enough examples. GIVE MOAR EXAMPLES.
+
+Most ppl do 5-10min motivation.
+
+I like this one: https://www.youtube.com/watch?v=fU9hR3kiOK0
+but it doesn't discuss how some obvious issues are solved (if they are)
+- keeping your views in sync
+- consistency vs availability
+
+** Structure of "Apache Kafka and the next 700 Stream Processing Systems":
+- 11min Motivation
+- 4min Challenges
+- 6min Technology/conceptual structure (what is Kafka, how is it structured)
+  - streams
+  - logs
+  - changelogs (log compaction only mentioned)
+  - groups
+- 4min How do we use these tools to address our challenges?
+- 1.5min unifying batch & stream processing
+- 2min how does this work in practice? architecture diagrams
+- 30sec conclusion
+
+* How to get advice?
+
+- Ping Dan Luu & ask for what he liked/didn't about strange loop talks.
+- Ask people on Zulip what they like/don't in talks & at STL specifically.
+- Ask people on snek?
+
+* Intro/motivation
+
+# Option 1: impedance mismatch
+
+- our tools influence how we think
+- our languages and our databases think differently about data
+- why?
+- can we bring them closer together?
+
+# Option 2: "what is a query language?"
+
+I'm here to talk about query languages.
+
+What is a query language, anyway?
+
+You mean, like SQL, right?
+
+That's one good answer. A query language is something like SQL.
+
+But I'm not going to give you one answer. This is StrangeLoop, and I think you
+deserve your money's worth. I'm going to give you three answers.
+
+# Option 3: PLs vs QLs
+
+See PLs vs QLs.
+
+Then follow on with relational vs logical vs functional.
+
+* PLs vs QLs
+
+Programming languages answer the question, "How do we compute?" (or "What is computation?")
+
+Query languages answer the question, "What is data? (and what can we do with it?)"
+
+these are connected:
+- data is pointless if you do nothing with it
+- computation is pointless without something relevant to do it to
+
+two different perspectives on one underlying thing
