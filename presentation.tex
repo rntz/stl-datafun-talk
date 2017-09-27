@@ -44,12 +44,17 @@
 
 
 %% configuration
-\rowcolors{2}{white}{gray!25}
+%% I hate everything
+\newcommand{\fixcolors}{\rowcolors{2}{white}{}}
+\fixcolors
 
 
 %% Commands
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\x}{\times}
+
+%% wherever you see this color, it means runnable Datafun code.
+\newcommand{\datafuncolor}{\color{blue}}
 
 
 %% Metadata
@@ -57,7 +62,7 @@
 \subtitle{a functional query language}
 \author{Michael Arntzenius
   \newline\href{mailto:daekharel@gmail.com}{daekharel@gmail.com}
-  \newline\url{http://www.rntz.net}}
+  \newline\url{http://www.rntz.net/datafun}}
 %% TODO:
 %% - http://www.rntz.net
 %% - daekharel@gmail.com
@@ -68,25 +73,58 @@
 \maketitle
 
 
-\begin{frame}\Large
+\begin{frame}\LARGE
   %% TODO: grab pithier text from abstract
-  \center \textbf{What if our programming languages worked more like our query
-  languages?}
+  \center \textbf{What if programming languages\\
+    were more like query languages?}
 \end{frame}
 
 \begin{frame}\Large
+  \frametitle{Structure of this talk}
   \begin{enumerate}
     \itemsep 1.5em
   \item What's a functional query language?
-  \item Fixed points \& where to find them
-  \item Living with change
+  \item Datafun's special sauce: fixed points
+  \item Incremental computation
   \end{enumerate}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Data as tables}
+
+%% \begin{frame}
+%%   \frametitle{The tabular view}
+%%   \large
 
-  \begin{center}
+%%   \begin{enumerate}\itemsep 2em
+%%   \item Data is represented by \emph{tables}.
+%%     %% \\{\small i.e. sets of tuples (rows) with named fields (columns).}
+
+%%   \item Queries are composed from primitive operators on tables.\\
+%%     {\small (select, join, union, ...)}
+%%   \end{enumerate}
+
+%%   %% \begin{itemize}\itemsep 1em
+%%   %% \item Data is represented by \emph{tables}
+
+%%   %% \item Tables are sets of tuples (rows) with named fields (columns)
+
+%%   %% \item Queries \emph{transform tables into other tables}\\
+
+%%   %% \item Queries are built from \emph{query operators}
+%%   %% \end{itemize}
+
+%% \end{frame}
+
+
+
+\begin{frame}
+  \frametitle{SQL}
+  %% \centering
+
+  %% hm. what do I talk about here?
+  %% data as tables? data as relations?
+
+  \begin{minipage}{0.4\textwidth}
+    \centering
     \begin{tabular}{l|l}
       \textbf{Parent} & \textbf{Child}\\\hline
       Arathorn & Aragorn\\
@@ -96,7 +134,142 @@
       \rowcolor{white}
       \hfill\vdots & \hfill\vdots
     \end{tabular}
-  \end{center}
+  \end{minipage}
+  %
+  %% \pause
+  \hfill
+  %
+  \begin{minipage}{0.5\textwidth}
+    \texttt{SELECT parent\\FROM parentage\\WHERE child = "Galadriel"}
+  \end{minipage}
 \end{frame}
 
+
+\begin{frame}
+  \frametitle{Tables as sets}
+  %% \centering
+
+  %% hm. what do I talk about here?
+  %% data as tables? data as relations?
+
+  \begin{minipage}{0.43\textwidth}
+    \centering
+
+
+    \begin{tabular}{l|l}
+      \textbf{Parent} & \textbf{Child}\\\hline
+      Arathorn & Aragorn\\
+      Drogo & Frodo\\
+      E\"arwen & Galadriel\\
+      Finarfin & Galadriel\\
+      \rowcolor{white}
+      \hfill\vdots & \hfill\vdots
+    \end{tabular}
+
+    %% \vspace{1.5em}{\large \uncover<2>{\textsc{as a table}}}
+
+  \end{minipage}
+  %
+  \hfill{\LARGE =}\hfill
+  %
+  \begin{minipage}{0.43\textwidth}
+    \centering
+
+    \rowcolors{1}{}{}
+    \begin{tabular}{l}
+      \color{gray}{// set of (parent, child) pairs}\\
+      \{\hspace{1pt}(Arathorn, Aragorn)\\
+      , (Drogo, Frodo)\\
+      , (E\"arwen, Galadriel)\\
+      , (Finarfin, Galadriel)\\
+      \,...\,\} \phantom{\vdots}
+    \end{tabular}
+
+    %% \vspace{1.5em}{\large \textsc{as a relation}}
+  \end{minipage}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Queries as set comprehensions}
+  \centering\Large
+
+  \begin{minipage}{0.8\textwidth}
+    %% TODO: is ``parentage'' the best name?
+    \texttt{SELECT parent\\FROM parentage\\WHERE child = "Galadriel"}
+  \end{minipage}
+
+  \vspace{1.5em}
+  {\LARGE $\Longrightarrow$}
+  \vspace{1em}
+
+  \begin{minipage}{0.8\textwidth}
+    \datafuncolor
+    \tt \{ parent \\
+    | (parent, child) in parentage\\
+    , child == "Galadriel" \}
+  \end{minipage}
+
+  %% TODO: more examples
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Recipe for a functional query language}
+  \Large
+  \begin{enumerate}\itemsep 1.5em
+  \item Take a functional language
+  \item Add sets and set comprehensions
+  \item {\color{red} ... done?}
+  \end{enumerate}
+\end{frame}
+
+
+\begin{frame}
+  \centering
+  {\bf\huge Can it go fast?}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Loop reordering}
+  \large
+  \centering
+
+  \texttt{\{ (x,y) | x in \alt<4>{{\color{red}\{\}}}{EXPR1},
+    y in \alt<4>{{\color{red}$\infty$-loop}}{EXPR2}\alt<4>{}{,
+    \alt<3>{{\color{red}print x}}{...}}\}}
+  \alt<4>{{\color{blue}$~\Longrightarrow~$\{\}}\phantom{-loo}\,}{}
+  %
+  \vspace{0.5em}\\
+  {\Large \alt<1>{=?}{\color{red}$\neq$}}
+  %
+  \vspace{0.5em}\\
+  \texttt{\{ (x,y) | y in \alt<4>{{\color{red}$\infty$-loop}}{EXPR2},
+    x in \alt<4>{{\color{red}\{\}}}{EXPR1}\alt<4>{}{,
+    \alt<3>{{\color{red}print x}}{...}}\}}
+  \alt<4>{{\color{blue}$~\Longrightarrow~\infty$-loop}}{}
+
+  \pause
+  \vspace{3em}\Large
+  \begin{minipage}{0.5\textwidth}
+    \begin{enumerate}
+    \item {\alt<3>{\color{red}}{} Side-effects}
+    \item {\alt<4>{\color{red}}{} Nontermination}
+    \end{enumerate}
+  \end{minipage}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Recipe for a functional query language, v2}
+  \Large
+  \begin{enumerate}\itemsep 1.5em
+  \item Take a \textbf{pure, total} functional language
+  \item Add sets and set comprehensions
+  \item {\color{orange} Optimize.}
+  \end{enumerate}
+\end{frame}
+
+
 \end{document}
