@@ -83,7 +83,7 @@
   \frametitle{Structure of this talk}
   \begin{enumerate}
     \itemsep 1.5em
-  \item What's a functional query language?
+  \item {\bf What's a functional query language?}
   \item Datafun's special sauce: fixed points
   \item Incremental computation
   \end{enumerate}
@@ -118,10 +118,7 @@
 
 \begin{frame}
   \frametitle{SQL}
-  %% \centering
-
-  %% hm. what do I talk about here?
-  %% data as tables? data as relations?
+  \large
 
   \begin{minipage}{0.4\textwidth}
     \centering
@@ -139,7 +136,7 @@
   %% \pause
   \hfill
   %
-  \begin{minipage}{0.5\textwidth}
+  \begin{minipage}{0.51\textwidth}
     \texttt{SELECT parent\\FROM parentage\\WHERE child = "Galadriel"}
   \end{minipage}
 \end{frame}
@@ -147,15 +144,10 @@
 
 \begin{frame}
   \frametitle{Tables as sets}
-  %% \centering
+  \large
 
-  %% hm. what do I talk about here?
-  %% data as tables? data as relations?
-
-  \begin{minipage}{0.43\textwidth}
+  \begin{minipage}{0.4\textwidth}
     \centering
-
-
     \begin{tabular}{l|l}
       \textbf{Parent} & \textbf{Child}\\\hline
       Arathorn & Aragorn\\
@@ -172,7 +164,7 @@
   %
   \hfill{\LARGE =}\hfill
   %
-  \begin{minipage}{0.43\textwidth}
+  \begin{minipage}{0.51\textwidth}
     \centering
 
     \rowcolors{1}{}{}
@@ -267,9 +259,43 @@
   \begin{enumerate}\itemsep 1.5em
   \item Take a \textbf{pure, total} functional language
   \item Add sets and set comprehensions
-  \item {\color{orange} Optimize.}
+  \item {\color{orange} Optimize!}
   \end{enumerate}
 \end{frame}
 
 
+\begin{frame}\Large
+  \frametitle{Structure of this talk}
+  \begin{enumerate}
+    \itemsep 1.5em
+  \item What's a functional query language?
+  \item {\bf Datafun's special sauce: fixed points}
+  \item Incremental computation
+  \end{enumerate}
+\end{frame}
+
+
+\begin{frame}
+  \large
+  \centering
+
+  \begin{minipage}{0.4\textwidth}
+    \centering
+    \begin{tabular}{l|l}
+      \textbf{Parent} & \textbf{Child}\\\hline
+      Arathorn & Aragorn\\
+      Drogo & Frodo\\
+      E\"arwen & Galadriel\\
+      Finarfin & Galadriel\\
+      \rowcolor{white}
+      \hfill\vdots & \hfill\vdots
+    \end{tabular}
+  \end{minipage}
+
+  \vspace{2em}\pause
+
+  {\Large \bf Is E\"arendil one of Aragorn's ancestors?}
+
+\end{frame}
+
 \end{document}
