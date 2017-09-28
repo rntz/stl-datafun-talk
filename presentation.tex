@@ -16,7 +16,7 @@
 \usepackage{hyperref}
 
 %% uses the AMS Euler math font.
-\usepackage{euler}
+%% \usepackage{euler}
 
 %% for coloneqq
 %% \usepackage{mathtools}
@@ -63,9 +63,6 @@
 \author{Michael Arntzenius
   \newline\href{mailto:daekharel@gmail.com}{daekharel@gmail.com}
   \newline\url{http://www.rntz.net/datafun}}
-%% TODO:
-%% - http://www.rntz.net
-%% - daekharel@gmail.com
 \date{Strange Loop, September 2017}
 
 \begin{document}
@@ -188,12 +185,10 @@
 \end{frame}
 
 
-\begin{frame}\centering
-  {\bf\huge But can it go fast?}
-\end{frame}
+\begin{frame}\centering{\bf\huge But can it go fast?}\end{frame}
 
 \begin{frame}{Loop reordering}\large\centering
-  \texttt{\{ (x,y) | x in \alt<4>{{\color{red}\{\}}}{EXPR1},
+  \texttt{\alt<1>{\df}{}\{ (x,y) | x in \alt<4>{{\color{red}\{\}}}{EXPR1},
     y in \alt<4>{{\color{red}$\infty$-loop}}{EXPR2}\alt<4>{}{,
     \alt<3>{{\color{red}print x}}{...}}\}}
   \alt<4>{{\color{blue}$~\Longrightarrow~$\{\}}\phantom{-loo}\,}{}
@@ -202,7 +197,7 @@
   {\Large \alt<1>{=?}{\color{red}$\neq$}}
   %
   \vspace{0.5em}\\
-  \texttt{\{ (x,y) | y in \alt<4>{{\color{red}$\infty$-loop}}{EXPR2},
+  \texttt{\alt<1>{\df}{}\{ (x,y) | y in \alt<4>{{\color{red}$\infty$-loop}}{EXPR2},
     x in \alt<4>{{\color{red}\{\}}}{EXPR1}\alt<4>{}{,
     \alt<3>{{\color{red}print x}}{...}}\}}
   \alt<4>{{\color{blue}$~\Longrightarrow~\infty$-loop}}{}
@@ -255,6 +250,9 @@
 
   \vspace{2em}
 
+  %% robsimmons: ``It's worth having languages where the
+  %% important ideas are foundational to the language.''
+  %% use this?
   {\Large \bf Is E\"arendil one of Aragorn's ancestors?}
 
 \end{frame}
@@ -287,7 +285,6 @@
   Can we capture this feature \textbf{functionally}?
 \end{frame}
 
-%% TODO: talk about how datafun runs.
 
 \newcommand{\newfact}{\bf\color{Green}}
 \newcommand{\used}{\bf\color{blue}}
@@ -295,7 +292,7 @@
 
   {
   \textbf{Procedure:}
-  \begin{enumerate}\itemsep 0
+  \begin{enumerate}\itemsep 0em
   \item Pick a rule.
   \item Find facts satisfying its premises.
   \item Add its conclusion to the known facts.
@@ -319,6 +316,70 @@
     {\alt<8>{\newfact}{}{ancestor(Idril, Elros)\alt<8>{!}{.}}}
     \alt<9>{}{}
   \end{quote}
+\end{frame}
+
+
+\begin{frame}\Large
+  Repeatedly apply a \textbf{\alt<2->{\alt<2>{\color{blue}}{}function}{set of rules}}\\
+  until \textbf{\alt<3->{\alt<3>{\color{blue}}{}its output equals its input}{nothing changes}}\\
+  \uncover<4->{i.e. it reaches a \textbf{\color{blue}fixed point}}{}
+
+  \vspace{2em}
+
+  \uncover<5->{\LARGE\centering\df fix x = {\it ... function of x ...}}
+\end{frame}
+
+
+\begin{frame}
+  \Large
+
+  \textcolor{gray}{\it // In Datalog}\\
+  ancestor(X,Z) :- parent(X,Z).\\
+  ancestor(X,Z) :- parent(X,Y), ancestor(Y,Z).
+
+  \pause\vspace{2em}\df
+
+  \textcolor{gray}{\it // In Datafun}\\
+  fix ancestor = parent\newline
+  \phantom{fix ancestor}
+  %$\cup$ (parent $\bullet$ ancestor)
+  $\cup$ \{(x,z) $\mid$ (x,y) in parent\newline
+  \phantom{fix ancestor $\cup$ \{(x,z) }, (!y,z) in ancestor\}
+\end{frame}
+
+%% TODO: show how to run the Datafun code?
+
+
+\begin{frame}\centering{\bf\huge But can it go fast?}\end{frame}
+% And I'm afraid the only answer I can give to this question is
+% ``I don't know yet.''
+%
+% But I am hopeful. And in the next section I'm going to show you one of the
+% reasons I'm hopeful.
+
+
+\begin{frame}\Large
+  \begin{enumerate}\color{gray}\itemsep 1.5em
+  \item What's a functional query language?
+  \item From Datalog to Datafun
+  \item {\color{black}\bf Incremental Datafun}
+  \end{enumerate}
+\end{frame}
+
+
+\begin{frame}{Three problems}\large
+  \begin{enumerate}\itemsep 1em
+    \alt<4>{\color{gray}}{}
+  \item {\bf View maintenance:} \\
+    {\normalsize How do we update a cached query efficiently after an update?}\
+    \pause
+  \item {\bf Semina\"ive evaluation in Datalog:}\\
+    {\normalsize How to avoid applying rules that generate facts we already know?}
+    \pause
+  \item \color{black}{\bf Incremental computation:}\\
+    {\normalsize How to efficiently recompute a
+    function's output when its input changes slightly?}
+  \end{enumerate}
 \end{frame}
 
 \end{document}
