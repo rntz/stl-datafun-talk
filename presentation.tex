@@ -1,4 +1,4 @@
-\documentclass[xcolor=table]{beamer}
+\documentclass[xcolor=table,usenames,dvipsnames,svgnames]{beamer}
 
 %% apparently this magic helps avoid the dreaded
 %% ``Too many math alphabets used in version normal''
@@ -54,7 +54,7 @@
 \newcommand{\x}{\times}
 
 %% wherever you see this color, it means runnable Datafun code.
-\newcommand{\datafuncolor}{\color{blue}}
+\newcommand{\df}{\color{RoyalBlue}}
 
 
 %% Metadata
@@ -73,53 +73,28 @@
 \maketitle
 
 
-\begin{frame}\LARGE
+\begin{frame}\LARGE \centering
   %% TODO: grab pithier text from abstract
-  \center \textbf{What if programming languages\\
-    were more like query languages?}
+  \textbf{What if \textcolor{DarkOrchid}{programming languages}\\
+    were more like \textcolor{DarkOrchid}{query languages}?}
+
+  %% \vspace{2em}\pause
+
+  %% \textbf{What if \textcolor{DarkOrchid}{query languages} were\\
+  %%   more like \textcolor{DarkOrchid}{programming languages}?}
 \end{frame}
 
 \begin{frame}\Large
-  \frametitle{Structure of this talk}
   \begin{enumerate}
     \itemsep 1.5em
   \item {\bf What's a functional query language?}
-  \item Datafun's special sauce: fixed points
-  \item Incremental computation
+  \item From Datalog to Datafun
+  \item Incremental Datafun
   \end{enumerate}
 \end{frame}
 
 
-%% \begin{frame}
-%%   \frametitle{The tabular view}
-%%   \large
-
-%%   \begin{enumerate}\itemsep 2em
-%%   \item Data is represented by \emph{tables}.
-%%     %% \\{\small i.e. sets of tuples (rows) with named fields (columns).}
-
-%%   \item Queries are composed from primitive operators on tables.\\
-%%     {\small (select, join, union, ...)}
-%%   \end{enumerate}
-
-%%   %% \begin{itemize}\itemsep 1em
-%%   %% \item Data is represented by \emph{tables}
-
-%%   %% \item Tables are sets of tuples (rows) with named fields (columns)
-
-%%   %% \item Queries \emph{transform tables into other tables}\\
-
-%%   %% \item Queries are built from \emph{query operators}
-%%   %% \end{itemize}
-
-%% \end{frame}
-
-
-
-\begin{frame}
-  \frametitle{SQL}
-  \large
-
+\begin{frame}{SQL}\large
   \begin{minipage}{0.4\textwidth}
     \centering
     \begin{tabular}{l|l}
@@ -142,10 +117,7 @@
 \end{frame}
 
 
-\begin{frame}
-  \frametitle{Tables as sets}
-  \large
-
+\begin{frame}{Tables as sets}\large
   \begin{minipage}{0.4\textwidth}
     \centering
     \begin{tabular}{l|l}
@@ -167,10 +139,9 @@
   \begin{minipage}{0.51\textwidth}
     \centering
 
-    \rowcolors{1}{}{}
     \begin{tabular}{l}
       \color{gray}{// set of (parent, child) pairs}\\
-      \{\hspace{1pt}(Arathorn, Aragorn)\\
+      \{\hspace{1pt}("Arathorn", Aragorn)\\
       , (Drogo, Frodo)\\
       , (E\"arwen, Galadriel)\\
       , (Finarfin, Galadriel)\\
@@ -183,11 +154,8 @@
 \end{frame}
 
 
-\begin{frame}
-  \frametitle{Queries as set comprehensions}
-  \centering\Large
-
-  \begin{minipage}{0.8\textwidth}
+\begin{frame}{Queries as set comprehensions}\Large\centering
+  \begin{minipage}{0.7\textwidth}
     %% TODO: is ``parentage'' the best name?
     \texttt{SELECT parent\\FROM parentage\\WHERE child = "Galadriel"}
   \end{minipage}
@@ -196,20 +164,22 @@
   {\LARGE $\Longrightarrow$}
   \vspace{1em}
 
-  \begin{minipage}{0.8\textwidth}
-    \datafuncolor
-    \tt \{ parent \\
-    | (parent, child) in parentage\\
-    , child == "Galadriel" \}
+  \begin{minipage}{1.0\textwidth}
+    \Large
+    \df \tt \{ parent | (parent, child) in parentage\\
+    \phantom{\{ parent }, child == "Galadriel" \}
+    %% \tt \{ parent \\
+    %% | (parent, child) in parentage\\
+    %% , child == "Galadriel" \}
   \end{minipage}
 
   %% TODO: more examples
 \end{frame}
 
 
-\begin{frame}
-  \frametitle{Recipe for a functional query language}
-  \Large
+\begin{frame}{Recipe for a functional query language}\Large
+  %% \textbf{Recipe for a functional query language:}\vspace{0.5em}
+
   \begin{enumerate}\itemsep 1.5em
   \item Take a functional language
   \item Add sets and set comprehensions
@@ -218,16 +188,11 @@
 \end{frame}
 
 
-\begin{frame}
-  \centering
-  {\bf\huge Can it go fast?}
+\begin{frame}\centering
+  {\bf\huge But can it go fast?}
 \end{frame}
 
-\begin{frame}
-  \frametitle{Loop reordering}
-  \large
-  \centering
-
+\begin{frame}{Loop reordering}\large\centering
   \texttt{\{ (x,y) | x in \alt<4>{{\color{red}\{\}}}{EXPR1},
     y in \alt<4>{{\color{red}$\infty$-loop}}{EXPR2}\alt<4>{}{,
     \alt<3>{{\color{red}print x}}{...}}\}}
@@ -253,9 +218,7 @@
 \end{frame}
 
 
-\begin{frame}
-  \frametitle{Recipe for a functional query language, v2}
-  \Large
+\begin{frame}{Recipe for a functional query language, v2}\Large
   \begin{enumerate}\itemsep 1.5em
   \item Take a \textbf{pure, total} functional language
   \item Add sets and set comprehensions
@@ -263,22 +226,20 @@
   \end{enumerate}
 \end{frame}
 
+%% TODO: slide about pros and cons / what we gained, what we lose
+%% TODO: moar examples of Datafun
+
 
 \begin{frame}\Large
-  \frametitle{Structure of this talk}
-  \begin{enumerate}
-    \itemsep 1.5em
+  \begin{enumerate} \itemsep 1.5em \color{gray}
   \item What's a functional query language?
-  \item {\bf Datafun's special sauce: fixed points}
-  \item Incremental computation
+  \item {\color{black}\bf From Datalog to Datafun}
+  \item Incremental Datafun
   \end{enumerate}
 \end{frame}
 
 
-\begin{frame}
-  \large
-  \centering
-
+\begin{frame} \large \centering
   \begin{minipage}{0.4\textwidth}
     \centering
     \begin{tabular}{l|l}
@@ -292,10 +253,72 @@
     \end{tabular}
   \end{minipage}
 
-  \vspace{2em}\pause
+  \vspace{2em}
 
   {\Large \bf Is E\"arendil one of Aragorn's ancestors?}
 
+\end{frame}
+
+
+\newcommand{\atom}[1]{\textcolor{brown}{#1}}
+\begin{frame}{Datalog in a nutshell}
+  \large
+  \atom{\alt<2-3>{ancestor($X$,$Z$)}{$X$ is $Z$'s ancestor}}
+  \alt<3>{:-}{if}
+  \atom{\alt<2-3>{parent($X$, $Z$)}{$X$ is $Z$'s parent}}.
+  \\\vspace{1em}
+  \atom{\alt<2-3>{ancestor($X$, $Z$)}{$X$ is $Z$'s ancestor}}
+  \alt<3>{:-}{if}
+  \atom{\alt<2-3>{parent($X$, $Y$)}{$X$ is $Y$'s parent}}\alt<3>{,}{ and}
+  \atom{\alt<2-3>{ancestor($Y$, $Z$)}{$Y$ is $Z$'s ancestor}}.
+
+  %% \vspace{2em}
+  %% \uncover<3>{\bf This is valid Datalog.}
+\end{frame}
+
+%% \begin{frame}\LARGE\centering
+%%   \textbf{How can we do this\\ in a functional query language?}
+%% \end{frame}
+
+
+\begin{frame}\Large
+  Datalog is \textbf{deductive}: it chases rules to their logical conclusions.
+  \\\vspace{2em}
+  Can we capture this feature \textbf{functionally}?
+\end{frame}
+
+%% TODO: talk about how datafun runs.
+
+\newcommand{\newfact}{\bf\color{Green}}
+\newcommand{\used}{\bf\color{blue}}
+\begin{frame}{}
+
+  {
+  \textbf{Procedure:}
+  \begin{enumerate}\itemsep 0
+  \item Pick a rule.
+  \item Find facts satisfying its premises.
+  \item Add its conclusion to the known facts.
+  \end{enumerate}}
+
+  \textbf{Rules:}
+  \begin{quote}\sf
+    {\alt<2-4,6>{\used}{} ancestor(X,Z) :- parent(X,Z).}\\
+    {\alt<8>{\used}{} ancestor(X,Z) :- parent(X,Y), ancestor(Y,Z).}\\
+  \end{quote}
+
+  \textbf{Facts:}
+  \begin{quote}\sf
+    {\alt<3-4,8>{\used}{} parent(Idril, E\"arendil).}\\
+    {\alt<6>{\used}{} parent(E\"arendil, Elros).}\\
+    \uncover<4->
+    {\alt<4>{\newfact}{}ancestor(Idril, E\"arendil)\alt<4>{!}{.}}\\
+    \uncover<6->
+    {\alt<6>{\newfact}{}\alt<8>{\used}{}ancestor(E\"arendil, Elros)\alt<6>{!}{.}}\\
+    \uncover<8->
+    {\alt<8>{\newfact}{}{ancestor(Idril, Elros)\alt<8>{!}{.}}}
+    \alt<9>{}{}
+  \end{quote}
 \end{frame}
 
 \end{document}
