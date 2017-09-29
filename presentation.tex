@@ -30,8 +30,8 @@
 %% % for inference rules
 %% \usepackage{proof}
 
-%% %% for mathpar environment
-%% \usepackage{mathpartir}
+%% for mathpar environment
+\usepackage{mathpartir}
 
 % for \scalebox, \rotatebox
 %% \usepackage{graphicx}
@@ -56,6 +56,8 @@
 %% wherever you see this color, it means runnable Datafun code.
 \newcommand{\df}{\color{RoyalBlue}}
 
+\newcommand{\GD}{\Delta}
+
 
 %% Metadata
 \title{Datafun}
@@ -70,15 +72,11 @@
 \maketitle
 
 
+\begin{frame}\centering\LARGE\bf Exploratory work \end{frame}
+
 \begin{frame}\LARGE \centering
-  %% TODO: grab pithier text from abstract
   \textbf{What if \textcolor{DarkOrchid}{programming languages}\\
     were more like \textcolor{DarkOrchid}{query languages}?}
-
-  %% \vspace{2em}\pause
-
-  %% \textbf{What if \textcolor{DarkOrchid}{query languages} were\\
-  %%   more like \textcolor{DarkOrchid}{programming languages}?}
 \end{frame}
 
 \begin{frame}\Large
@@ -109,6 +107,7 @@
   \hfill
   %
   \begin{minipage}{0.51\textwidth}
+    %% TODO: is ``parentage'' the best name?
     \texttt{SELECT parent\\FROM parentage\\WHERE child = "Galadriel"}
   \end{minipage}
 \end{frame}
@@ -153,7 +152,6 @@
 
 \begin{frame}{Queries as set comprehensions}\Large\centering
   \begin{minipage}{0.7\textwidth}
-    %% TODO: is ``parentage'' the best name?
     \texttt{SELECT parent\\FROM parentage\\WHERE child = "Galadriel"}
   \end{minipage}
 
@@ -162,16 +160,47 @@
   \vspace{1em}
 
   \begin{minipage}{1.0\textwidth}
-    \Large
     \df \tt \{ parent | (parent, child) in parentage\\
     \phantom{\{ parent }, child == "Galadriel" \}
-    %% \tt \{ parent \\
-    %% | (parent, child) in parentage\\
-    %% , child == "Galadriel" \}
+  \end{minipage}
+\end{frame}
+
+\begin{frame}{Queries as set comprehensions: finding siblings}\large\centering
+  \begin{minipage}{0.9\textwidth}
+    \tt SELECT DISTINCT A.child, B.child\\
+    FROM parentage A INNER JOIN parentage B\\
+    ON A.parent = B.parent
+    \\WHERE A.child <> B.child
   \end{minipage}
 
-  %% TODO: more examples
+  \vspace{1.5em}
+  {\LARGE $\Longrightarrow$}
+  \vspace{1em}
+
+  \begin{minipage}{0.8\textwidth}
+    \df\tt\{ (a,b) | (parent, a) in parentage\\
+    \phantom{\{ (a,b) }, (!parent, b) in parentage\\
+    \phantom{\{ (a,b) }, not (a = b) \}
+  \end{minipage}
 \end{frame}
+
+
+%% \begin{frame}{Queries as set comprehensions: grandparenting yourself}\large\centering
+%%   \begin{minipage}{0.9\textwidth}
+%%     \tt SELECT parent\\
+%%     FROM parentage A INNER JOIN parentage B\\
+%%     ON A.child = B.parent AND A.parent = B.child
+%%   \end{minipage}
+
+%%   \vspace{1.5em}
+%%   {\LARGE $\Longrightarrow$}
+%%   \vspace{1em}
+
+%%   \begin{minipage}{0.8\textwidth}
+%%     \df\tt\{ a | (a, b) in parentage\\
+%%     \phantom{\{ a }, (!b, !a) in parentage \}
+%%   \end{minipage}
+%% \end{frame}
 
 
 \begin{frame}{Recipe for a functional query language}\Large
@@ -219,6 +248,11 @@
   \item Add sets and set comprehensions
   \item {\color{orange} Optimize!}
   \end{enumerate}
+\end{frame}
+
+
+\begin{frame}{Pros and cons}
+  
 \end{frame}
 
 %% TODO: slide about pros and cons / what we gained, what we lose
@@ -347,7 +381,30 @@
   \phantom{fix ancestor $\cup$ \{(x,z) }, (!y,z) in ancestor\}
 \end{frame}
 
-%% TODO: show how to run the Datafun code?
+
+\begin{frame}\large
+  \textbf{Repeatedly applying:}
+  \begin{center}
+    ${\color{blue}X} \longmapsto$ parent $\cup$ \{(x,z) $\mid$ (x,y) in parent, (!y,z) in {\color{blue}X}\}
+  \end{center}
+
+  \parskip 0.5em
+  \textbf{Where} parent = \{(Idril, E\"arendil), (E\"arendil, Elros)\}
+
+  \textbf{Steps}:\\
+  \def\arraystretch{1.3}
+  \begin{tabular}{rl}
+    & \alt<1-2>{\color{blue}}{}$\emptyset$
+    \\\pause
+    $\longmapsto$ & parent $\cup$ \{(x,z) $\mid$ (x,y) in parent, (!y,z) in {\alt<1-2>{\color{blue}}{}$\emptyset$}\}
+    \\\pause
+    =& \alt<4>{\color{blue}}{}parent
+    \\\pause
+    $\longmapsto$ & parent $\cup$ \{(x,z) $\mid$ (x,y) in parent, (!y,z) in {\alt<4>{\color{blue}}{}parent}\}
+    \\\pause
+    =& \{(Idril, E\"arendil), (E\"arendil, Elros), (Idril, Elros)\}
+  \end{tabular}
+\end{frame}
 
 
 \begin{frame}\centering{\bf\huge But can it go fast?}\end{frame}
@@ -380,6 +437,111 @@
     {\normalsize How to efficiently recompute a
     function's output when its input changes slightly?}
   \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \Large {\it ``A Theory of Changes for Higher-Order Languages:\\
+    Incrementalizing $\lambda$-calculi by Static Differentiation''}
+  \vspace{0.1em}\newline\normalsize [PLDI 2014]
+  \\\vspace{0.5em}
+  \small by Yufei Cai, Paolo G Giarrusso, Tillmann Rendel, and Klaus Ostermann
+\end{frame}
+
+
+\begin{frame}{Static differentiation: $\Delta$, $\oplus$, $\delta$}\large
+  \vspace{-1em}
+  Every type $A$ has a \emph{type of changes}, $\color{blue}\Delta A$.
+  \pause
+  \begin{eqnarray*}
+    \GD \mathbb{N} &=& \mathbb{Z}\\
+    \GD (A \x B) &=& \GD A \x \GD B
+  \end{eqnarray*}
+
+  \pause Every type also gets an operator $\color{blue}\oplus_A : A \to \GD A \to A$.
+  \pause
+  \begin{eqnarray*}
+    x \oplus_\N dx &=& x + dx\\
+    (x,y) \oplus_{A \x B} (dx,dy) &=& (x \oplus_A dx, y \oplus_B dy)
+  \end{eqnarray*}
+
+  \pause A function $f : A \to B$ gets a \emph{derivative},
+  $\color{blue} \delta f : A \to \Delta A \to \Delta B$.
+  \pause
+  $$\begin{array}{rclcl}
+    f(x) &=& x^2\\
+    \delta f(x)(dx) &=& 2x\cdot dx+dx^2\\
+    \pause
+    f(x) + \delta f(x)(dx) &=& x^2 + 2x\cdot dx + dx^2 &=& (x + dx)^2
+  \end{array}$$
+
+  %% If $M$ uses variables $x, y, z$,\\
+  %% then $\color{blue}\delta M$ will use $x, y, z, \color{blue} dx, dy, dz$.
+
+  %% $\color{blue} \delta M$ computes the \emph{change to $M$}\\
+  %% resulting from the changes $\color{blue} dx, dy, dz$ to its variables.
+
+  %% \begin{eqnarray*}
+  %% \Delta(A \x B) &=& \Delta A \x \Delta B\\
+  %% \Delta(A \to B) &=& A \to \Delta A \to \Delta B
+  %% \end{eqnarray*}
+\end{frame}
+
+
+\begin{frame}\centering\LARGE
+  \textbf{We've extended this technique\\ to handle all of Datafun!}
+
+  \vspace{1em}\small (As of about three weeks ago.)
+
+\end{frame}
+
+
+%% TODO:
+\begin{frame}{Finding fixed points faster with derivatives}
+  \large \parskip 1em
+  The na\"ive way to find fixed points looks like this:
+  $${\emptyset \mapsto f(\emptyset) \mapsto f^2(\emptyset) \mapsto f^3(\emptyset) \mapsto ...}$$
+  \pause
+  $f^i(\emptyset)$ and $f^{i+1}(\emptyset)$ \textbf{overlap a lot.}
+
+  Computing $f^{i+1}(\emptyset)$ from $f^i(\emptyset)$ \textbf{does a lot of recomputation.}
+
+  \pause
+  What if we could only compute \textbf{what changed} between iterations?
+\end{frame}
+
+\begin{frame}\Large
+  $$\begin{array}{lcl@{\hspace{2em}}lcl}
+    x_0 &=& \emptyset
+    & dx_0 &=& f(\emptyset)\\
+    x_{i+1} &=& x_i \cup dx_i
+    & dx_{i+1} &=& \delta f (x_i)(dx_i)\\
+  \end{array}$$
+
+  \vspace{1em}
+  \textbf{Theorem:} $x_i = f^i(x)$
+\end{frame}
+
+
+%% conclusion
+\begin{frame}{Takeaways}\large
+  \begin{enumerate}\itemsep 1em
+  \item Set comprehensions = queries
+  \item Fixed points = recursive queries {\it\small (like Datalog)}
+  \item Incremental computation = faster fixed points
+  \item Datafun has all three!*
+  \end{enumerate}
+
+  \vspace{1em}\small
+  * Almost.
+\end{frame}
+
+\begin{frame}\Large
+  \textbf{Michael Arntzenius}\\
+  \href{mailto:daekharel@gmail.com}{daekharel@gmail.com}\\
+  \texttt{@arntzenius}
+
+  \vspace{1em}
+  \centering \huge \url{rntz.net/datafun}
 \end{frame}
 
 \end{document}
