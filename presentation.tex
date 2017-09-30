@@ -77,6 +77,11 @@
 \begin{frame}\LARGE \centering
   \textbf{What if \textcolor{DarkOrchid}{programming languages}\\
     were more like \textcolor{DarkOrchid}{query languages}?}
+
+  \vspace{2em}
+
+  \textbf{What if \textcolor{DarkOrchid}{query languages} were more\\
+    like \textcolor{DarkOrchid}{programming languages}?}
 \end{frame}
 
 \begin{frame}\Large
@@ -217,19 +222,19 @@
 \begin{frame}\centering{\bf\huge But can it go fast?}\end{frame}
 
 \begin{frame}{Loop reordering}\large\centering
-  \texttt{\alt<1>{\df}{}\{ (x,y) | x in \alt<4>{{\color{red}\{\}}}{EXPR1},
+  \texttt{\alt<1>{\df}{}\{ (x,y) | x in \alt<4>{{\color{blue}\{\}}}{EXPR1},
     y in \alt<4>{{\color{red}$\infty$-loop}}{EXPR2}\alt<4>{}{,
     \alt<3>{{\color{red}print x}}{...}}\}}
   \alt<4>{{\color{blue}$~\Longrightarrow~$\{\}}\phantom{-loo}\,}{}
   %
   \vspace{0.5em}\\
-  {\Large \alt<1>{=?}{\color{red}$\neq$}}
+  {\Large \alt<1>{=?}{\alt<2>{\color{red}}{}$\neq$}}
   %
   \vspace{0.5em}\\
   \texttt{\alt<1>{\df}{}\{ (x,y) | y in \alt<4>{{\color{red}$\infty$-loop}}{EXPR2},
-    x in \alt<4>{{\color{red}\{\}}}{EXPR1}\alt<4>{}{,
+    x in \alt<4>{{\color{blue}\{\}}}{EXPR1}\alt<4>{}{,
     \alt<3>{{\color{red}print x}}{...}}\}}
-  \alt<4>{{\color{blue}$~\Longrightarrow~\infty$-loop}}{}
+  \alt<4>{{\color{red}$~\Longrightarrow~\infty$-loop}}{}
 
   \pause
   \vspace{3em}\Large
@@ -251,8 +256,34 @@
 \end{frame}
 
 
-\begin{frame}{Pros and cons}
-  
+\begin{frame}{}\large\parskip 0.4em
+  \textsc{What have we gained?}
+  \begin{itemize}\itemsep 0.5em
+  \item Sets are \textbf{just ordinary values}
+    %% we can put them inside other sets
+    %% we can stick them in a closure
+  \item Can factor out repeated patterns with\\ \textbf{higher-order functions}
+  \item Sets, bags, lists: choose your container semantics!
+  \end{itemize}
+
+  \vspace{1em}\pause
+
+  \textsc{At what cost?}
+  \begin{itemize}
+  \item \textbf{Implementation complexity}:\\
+    {\small GC, closures, nested sets, optimizing comprehensions...}
+  \item \textbf{Re-inventing the wheel}:\\
+    {\small persistence, transactions, replication, journalling...}
+  \end{itemize}
+
+  %% \textsc{The drawback:} \textbf{Implementation complexity!}\pause
+  %% \begin{itemize}\itemsep 0.5em
+  %% \item Garbage collection
+  %% \item Closures
+  %% \item Nested sets
+  %%   %% re-implementing existing features
+  %% \item \color{red}\bf Transactions?!
+  %% \end{itemize}
 \end{frame}
 
 %% TODO: slide about pros and cons / what we gained, what we lose
