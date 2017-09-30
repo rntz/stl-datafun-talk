@@ -78,12 +78,13 @@
   \textbf{What if \textcolor{DarkOrchid}{programming languages}\\
     were more like \textcolor{DarkOrchid}{query languages}?}
 
-  \vspace{2em}
+  %% \vspace{2em}
 
-  \textbf{What if \textcolor{DarkOrchid}{query languages} were more\\
-    like \textcolor{DarkOrchid}{programming languages}?}
+  %% \textbf{What if \textcolor{DarkOrchid}{query languages} were more\\
+  %%   like \textcolor{DarkOrchid}{programming languages}?}
 \end{frame}
 
+
 \begin{frame}\Large
   \begin{enumerate}
     \itemsep 1.5em
@@ -152,6 +153,15 @@
     %% \vspace{1.5em}{\large \textsc{as a relation}}
   \end{minipage}
 
+\end{frame}
+
+
+\begin{frame}\Large\centering
+  \bf Tuples and sets are just datatypes!
+
+  \vspace{2em}\pause
+
+  If tables are sets, what are queries?
 \end{frame}
 
 
@@ -259,10 +269,10 @@
 \begin{frame}{}\large\parskip 0.4em
   \textsc{What have we gained?}
   \begin{itemize}\itemsep 0.5em
+  \item Can factor out repeated patterns with\\ \textbf{higher-order functions}
   \item Sets are \textbf{just ordinary values}
     %% we can put them inside other sets
     %% we can stick them in a closure
-  \item Can factor out repeated patterns with\\ \textbf{higher-order functions}
   \item Sets, bags, lists: choose your container semantics!
   \end{itemize}
 
@@ -399,16 +409,16 @@
   \Large
 
   \textcolor{gray}{\it // In Datalog}\\
-  ancestor(X,Z) :- parent(X,Z).\\
-  ancestor(X,Z) :- parent(X,Y), ancestor(Y,Z).
+  {\alt<2>{\bf}{}ancestor(X,Z) :- parent(X,Z).}\\
+  {\alt<3>{\bf}{}ancestor(X,Z) :- parent(X,Y), ancestor(Y,Z).}
 
-  \pause\vspace{2em}\df
+  \vspace{2em}\df
 
   \textcolor{gray}{\it // In Datafun}\\
-  fix ancestor = parent\newline
+  fix ancestor = {\alt<2>{\bf}{}parent}\newline
   \phantom{fix ancestor}
   %$\cup$ (parent $\bullet$ ancestor)
-  $\cup$ \{(x,z) $\mid$ (x,y) in parent\newline
+  $\cup$ \alt<3>{\bf}{}\{(x,z) $\mid$ (x,y) in parent\newline
   \phantom{fix ancestor $\cup$ \{(x,z) }, (!y,z) in ancestor\}
 \end{frame}
 

@@ -1,0 +1,81 @@
+* Exploratory work
+* PL vs DB
+- happy medium
+
+- at its core, lots of programs are about data
+- general purpose PLs don't make this easy
+  how to represent it?
+  want it in memory or on disk?
+
+- databases solve some of these
+- layer b/w you & data
+
+- baby steps in this direction
+
+* Section 1
+** Overview
+- 1: what kind of thing is DF?
+- FQL: not an idea original to me
+- Datafun has a particular take
+
+- 2: discuss datafun's core influence, Datalog
+- what it's good for & what DF borrows
+
+- 3: current work, incrementalizing DF
+
+** SQL
+- represent data in tables
+- geneology of the works of JRR Tolkien
+- query which finds galadriel's parents
+- why "relational"?
+
+** Tables as sets
+- table -> set
+- changing the way we look at our data
+
+** Tuples & sets
+- tuples, lists, dictionaries, trees, hashtables
+- if tables are sets, natural next question: what are queries?
+- familiar with list comprehensions?
+- iterate over, manipulate & transform lists
+
+** Queries as set comprehensions
+- queries, I say, are just set comprehensions
+- just to bring point home, let's try another example
+
+** Recipe v2
+- How to solve these? Ban them!
+- This is Datafun's take.
+- optimization is the research problem here
+
+** What have we gained / lost
+- brought FP & DB closer together
+- sets: pass them to a function, put 'em in a closure
+- databases typically make global choice about duplicates mattering or not
+- can use types to make that choice
+
+- have to deal w/ functional language implementation issues
+  AND database language implementation issues
+- we have our work cut out for us
+
+* Section 2
+** Overview
+- Relation of Datafun to Datalog, its namesake
+- to do that, discuss a particular problem
+
+** Ancestry
+- rel.alg. can't do this
+- SQL can, but req. extension wh/ can't fit on a slide
+- Datalog can
+- so simple it's beautiful
+
+** Datalog
+- Logic programming
+- Specify the problem
+- The language solves the problem for you!
+- beautiful dream
+
+- So let's specify the problem!
+- make it look more "computer-y"
+
+** Datalog is deductive
