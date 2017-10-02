@@ -1,4 +1,8 @@
 * Exploratory work
+- system, here's why it's great
+- early stages
+- ideas behind DF, hope you like them as much as I do
+
 * PL vs DB
 - happy medium
 
