@@ -55,6 +55,7 @@
 
 %% wherever you see this color, it means runnable Datafun code.
 \newcommand{\df}{\color{RoyalBlue}}
+\renewcommand{\df}{}
 
 \newcommand{\GD}{\Delta}
 
@@ -167,25 +168,29 @@
 
 \begin{frame}{Queries as set comprehensions}\Large\centering
   \begin{minipage}{0.7\textwidth}
-    \texttt{SELECT parent\\FROM parentage\\WHERE child = "Galadriel"}
+    \texttt{SELECT {\color{orange}parent}\\
+      FROM {\color{Green}parentage}\\
+      WHERE {\color{violet}child = "Galadriel"}}
   \end{minipage}
 
+  \pause
   \vspace{1.5em}
   {\LARGE $\Longrightarrow$}
   \vspace{1em}
 
   \begin{minipage}{1.0\textwidth}
-    \df \tt \{ parent | (parent, child) in parentage\\
-    \phantom{\{ parent }, child == "Galadriel" \}
+    \df\tt \{ {\color{orange}parent}
+    | {\color{Green}(parent, child) in parentage}\\
+    \phantom{\{ parent }, {\color{violet}child = "Galadriel"} \}
   \end{minipage}
 \end{frame}
 
 \begin{frame}{Queries as set comprehensions: finding siblings}\large\centering
   \begin{minipage}{0.9\textwidth}
-    \tt SELECT DISTINCT A.child, B.child\\
-    FROM parentage A INNER JOIN parentage B\\
-    ON A.parent = B.parent
-    \\WHERE A.child <> B.child
+    \tt SELECT DISTINCT {\color{orange}A.child, B.child}\\
+    FROM {\color{Green}parentage A} INNER JOIN {\color{RoyalBlue}parentage B}\\
+    ON {\alt<2->{\color{red}}{}A.parent = B.parent}
+    \\WHERE {\color{violet}A.child <> B.child}
   \end{minipage}
 
   \vspace{1.5em}
@@ -193,9 +198,10 @@
   \vspace{1em}
 
   \begin{minipage}{0.8\textwidth}
-    \df\tt\{ (a,b) | (parent, a) in parentage\\
-    \phantom{\{ (a,b) }, (!parent, b) in parentage\\
-    \phantom{\{ (a,b) }, not (a = b) \}
+    \df\tt\{ {\color{orange}(a,b)}
+    | {\color{Green}({\alt<2->{\color{red}}{}parent}, a) in parentage}\\
+    \phantom{\{ (a,b) }, {\color{RoyalBlue}({\alt<2->{\color{red}}{}parent}, b) in parentage}\\
+    \phantom{\{ (a,b) }, {\color{violet}not (a = b)} \}
   \end{minipage}
 \end{frame}
 
@@ -361,8 +367,10 @@
 \end{frame}
 
 
-\newcommand{\newfact}{\bf\color{Green}}
-\newcommand{\used}{\bf\color{blue}}
+\newcommand{\conc}{\bf\color{Green}}
+\newcommand{\fires}{\bf}
+\newcommand{\premisea}{\color{Blue}}
+\newcommand{\premiseb}{\color{Rhodamine}}
 \begin{frame}{}
 
   {
@@ -375,20 +383,25 @@
 
   \textbf{Rules:}
   \begin{quote}\sf
-    {\alt<2-4,6>{\used}{} ancestor(X,Z) :- parent(X,Z).}\\
-    {\alt<8>{\used}{} ancestor(X,Z) :- parent(X,Y), ancestor(Y,Z).}\\
+    {\alt<2-4,6>{\fires}{}
+      {\alt<4,6>{\conc}{}ancestor(X,Z)} :-
+      {\alt<3-4,6>{\premisea{}}{}parent(X,Z)}.}\\
+    {\alt<8>{\fires}{}
+      {\alt<8>{\conc}{}ancestor(X,Z)} :-
+      {\alt<8>{\premisea}{}parent(X,Y)},
+      {\alt<8>{\premiseb}{}ancestor(Y,Z)}.}\\
   \end{quote}
 
   \textbf{Facts:}
   \begin{quote}\sf
-    {\alt<3-4,8>{\used}{} parent(Idril, E\"arendil).}\\
-    {\alt<6>{\used}{} parent(E\"arendil, Elros).}\\
+    {\alt<3-4,8>{\premisea}{} parent(Idril, E\"arendil).}\\
+    {\alt<6>{\premisea}{} parent(E\"arendil, Elros).}\\
     \uncover<4->
-    {\alt<4>{\newfact}{}ancestor(Idril, E\"arendil)\alt<4>{!}{.}}\\
+    {\alt<4>{\conc}{}ancestor(Idril, E\"arendil).\quad \alt<4>{\it(new!)}{}}\\
     \uncover<6->
-    {\alt<6>{\newfact}{}\alt<8>{\used}{}ancestor(E\"arendil, Elros)\alt<6>{!}{.}}\\
+    {\alt<6>{\conc}{}\alt<8>{\premiseb}{}ancestor(E\"arendil, Elros).\quad\alt<6>{\it(new!)}{}}\\
     \uncover<8->
-    {\alt<8>{\newfact}{}{ancestor(Idril, Elros)\alt<8>{!}{.}}}
+    {\alt<8>{\conc}{}{ancestor(Idril, Elros).\quad \alt<8>{\it(new!)}{}}}
     \alt<9>{}{}
   \end{quote}
 \end{frame}
@@ -419,7 +432,7 @@
   \phantom{fix ancestor}
   %$\cup$ (parent $\bullet$ ancestor)
   $\cup$ \alt<3>{\bf}{}\{(x,z) $\mid$ (x,y) in parent\newline
-  \phantom{fix ancestor $\cup$ \{(x,z) }, (!y,z) in ancestor\}
+  \phantom{\rm fix ancestor $\cup$ }\phantom{\{(x,z)}, (y,z) in ancestor\}
 \end{frame}
 
 
@@ -469,14 +482,14 @@
   \begin{enumerate}\itemsep 1em
     \alt<4>{\color{gray}}{}
   \item {\bf View maintenance:} \\
-    {\normalsize How do we update a cached query efficiently after an update?}\
+    {\normalsize How do we update a cached query efficiently after a mutation?}\
     \pause
   \item {\bf Semina\"ive evaluation in Datalog:}\\
-    {\normalsize How to avoid applying rules that generate facts we already know?}
+    {\normalsize How do we avoid re-deducing facts we already know?}
     \pause
   \item \color{black}{\bf Incremental computation:}\\
-    {\normalsize How to efficiently recompute a
-    function's output when its input changes slightly?}
+    {\normalsize How do we efficiently recompute a function as its
+      inputs change?}
   \end{enumerate}
 \end{frame}
 
