@@ -237,19 +237,23 @@
 
 \begin{frame}\centering{\bf\huge But can it go fast?}\end{frame}
 
+\newcommand{\bexpr}[1]{{\color{violet}{#1}}}
+
 \begin{frame}{Loop reordering}\large\centering
-  \texttt{\alt<1>{\df}{}\{ (x,y) | x in \alt<4>{{\color{blue}\{\}}}{EXPR1},
-    y in \alt<4>{{\color{red}$\infty$-loop}}{EXPR2}\alt<4>{}{,
-    \alt<3>{{\color{red}print x}}{...}}\}}
-  \alt<4>{{\color{blue}$~\Longrightarrow~$\{\}}\phantom{-loo}\,}{}
+  \texttt{\alt<1>{\df}{}
+    \{ \alt<3>{{\color{red}print x}}{...}~|
+    x in \alt<4>{\{\}}{EXPR1},
+    \bexpr{y in \alt<4>{$\infty$-loop}{EXPR2}} \}}
+  \alt<4>{{$~\Longrightarrow~$\{\}}\phantom{-loo}\,}{}
   %
   \vspace{0.5em}\\
   {\Large \alt<1>{=?}{\alt<2>{\color{red}}{}$\neq$}}
   %
   \vspace{0.5em}\\
-  \texttt{\alt<1>{\df}{}\{ (x,y) | y in \alt<4>{{\color{red}$\infty$-loop}}{EXPR2},
-    x in \alt<4>{{\color{blue}\{\}}}{EXPR1}\alt<4>{}{,
-    \alt<3>{{\color{red}print x}}{...}}\}}
+  \texttt{\alt<1>{\df}{}
+    \{ \alt<3>{{\color{red}print x}}{...}~|
+    \bexpr{y in \alt<4>{$\infty$-loop}{EXPR2}},
+    x in \alt<4>{\{\}}{EXPR1} \}}
   \alt<4>{{\color{red}$~\Longrightarrow~\infty$-loop}}{}
 
   \pause
@@ -267,7 +271,7 @@
   \begin{enumerate}\itemsep 1.5em
   \item Take a \textbf{pure, total} functional language
   \item Add sets and set comprehensions
-  \item {\color{orange} Optimize!}
+  \item {\bf Optimize!}
   \end{enumerate}
 \end{frame}
 
@@ -367,7 +371,7 @@
 \end{frame}
 
 
-\newcommand{\conc}{\bf\color{Green}}
+\newcommand{\conc}{\color{Green}}
 \newcommand{\fires}{\bf}
 \newcommand{\premisea}{\color{Blue}}
 \newcommand{\premiseb}{\color{Rhodamine}}
@@ -439,7 +443,7 @@
 \begin{frame}\large
   \textbf{Repeatedly applying:}
   \begin{center}
-    ${\color{blue}X} \longmapsto$ parent $\cup$ \{(x,z) $\mid$ (x,y) in parent, (!y,z) in {\color{blue}X}\}
+    ${\color{blue}X} \longmapsto$ parent $\cup$ \{(x,z) $\mid$ (x,y) in parent, (y,z) in {\color{blue}X}\}
   \end{center}
 
   \parskip 0.5em
@@ -450,11 +454,11 @@
   \begin{tabular}{rl}
     & \alt<1-2>{\color{blue}}{}$\emptyset$
     \\\pause
-    $\longmapsto$ & parent $\cup$ \{(x,z) $\mid$ (x,y) in parent, (!y,z) in {\alt<1-2>{\color{blue}}{}$\emptyset$}\}
+    $\longmapsto$ & parent $\cup$ \{(x,z) $\mid$ (x,y) in parent, (y,z) in {\alt<1-2>{\color{blue}}{}$\emptyset$}\}
     \\\pause
     =& \alt<4>{\color{blue}}{}parent
     \\\pause
-    $\longmapsto$ & parent $\cup$ \{(x,z) $\mid$ (x,y) in parent, (!y,z) in {\alt<4>{\color{blue}}{}parent}\}
+    $\longmapsto$ & parent $\cup$ \{(x,z) $\mid$ (x,y) in parent, (y,z) in {\alt<4>{\color{blue}}{}parent}\}
     \\\pause
     =& \{(Idril, E\"arendil), (E\"arendil, Elros), (Idril, Elros)\}
   \end{tabular}
