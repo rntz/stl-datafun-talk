@@ -45,8 +45,8 @@
 
 %% configuration
 %% I hate everything
-\newcommand{\fixcolors}{\rowcolors{2}{white}{}}
-\fixcolors
+%% \newcommand{\fixcolors}{\rowcolors{2}{white}{}}
+%% \fixcolors
 
 
 %% Commands
@@ -66,7 +66,8 @@
 \author{Michael Arntzenius
   \newline\href{mailto:daekharel@gmail.com}{daekharel@gmail.com}
   \newline\url{http://www.rntz.net/datafun}}
-\date{Strange Loop, September 2017}
+\date{Strange Loop, September 2017\\
+Recurse Center, March 2018}
 
 \begin{document}
 
@@ -105,7 +106,7 @@
       Drogo & Frodo\\
       E\"arwen & Galadriel\\
       Finarfin & Galadriel\\
-      \rowcolor{white}
+      %% \rowcolor{white}
       \hfill\vdots & \hfill\vdots
     \end{tabular}
   \end{minipage}
@@ -129,7 +130,7 @@
       Drogo & Frodo\\
       E\"arwen & Galadriel\\
       Finarfin & Galadriel\\
-      \rowcolor{white}
+      %% \rowcolor{white}
       \hfill\vdots & \hfill\vdots
     \end{tabular}
 
@@ -237,24 +238,23 @@
 
 \begin{frame}\centering{\bf\huge But can it go fast?}\end{frame}
 
-\newcommand{\bexpr}[1]{{\color{violet}{#1}}}
+\newcommand{\inftyloop}{\ensuremath{\infty\text{-loop}}}
+\newcommand{\elemexp}{{\alt<3>{{\color{red}print x}}{...}}}
+\newcommand{\aloop}{x in \alt<3-4>{\{\alt<3>{"hello"}{}\}}{EXPR1}}
+\newcommand{\bloop}{{\color{violet}%
+y in \alt<3>{\{0,1\}}{\alt<4>{\color{red}\inftyloop}{EXPR2}}}%
+}
 
 \begin{frame}{Loop reordering}\large\centering
-  \texttt{\alt<1>{\df}{}
-    \{ \alt<3>{{\color{red}print x}}{...}~|
-    x in \alt<4>{\{\}}{EXPR1},
-    \bexpr{y in \alt<4>{$\infty$-loop}{EXPR2}} \}}
+  \texttt{\{ \elemexp~| \aloop{}, \bloop{} \}}
   \alt<4>{{$~\Longrightarrow~$\{\}}\phantom{-loo}\,}{}
   %
   \vspace{0.5em}\\
   {\Large \alt<1>{=?}{\alt<2>{\color{red}}{}$\neq$}}
   %
   \vspace{0.5em}\\
-  \texttt{\alt<1>{\df}{}
-    \{ \alt<3>{{\color{red}print x}}{...}~|
-    \bexpr{y in \alt<4>{$\infty$-loop}{EXPR2}},
-    x in \alt<4>{\{\}}{EXPR1} \}}
-  \alt<4>{{\color{red}$~\Longrightarrow~\infty$-loop}}{}
+  \texttt{\{ \elemexp~| \bloop{}, \aloop{} \}}
+  \alt<4>{{\color{red}$~\Longrightarrow~\inftyloop$}}{}
 
   \pause
   \vspace{3em}\Large
@@ -293,7 +293,7 @@
   \item \textbf{Implementation complexity}:\\
     {\small GC, closures, nested sets, optimizing comprehensions...}
   \item \textbf{Re-inventing the wheel}:\\
-    {\small persistence, transactions, replication, journalling...}
+    {\small persistence, transactions, replication...}
   \end{itemize}
 
   %% \textsc{The drawback:} \textbf{Implementation complexity!}\pause
@@ -328,7 +328,7 @@
       Drogo & Frodo\\
       E\"arwen & Galadriel\\
       Finarfin & Galadriel\\
-      \rowcolor{white}
+      %% \rowcolor{white}
       \hfill\vdots & \hfill\vdots
     \end{tabular}
   \end{minipage}
@@ -425,13 +425,13 @@
 \begin{frame}
   \Large
 
-  \textcolor{gray}{\it // In Datalog}\\
+  \textcolor{gray}{\it // Datalog}\\
   {\alt<2>{\bf}{}ancestor(X,Z) :- parent(X,Z).}\\
   {\alt<3>{\bf}{}ancestor(X,Z) :- parent(X,Y), ancestor(Y,Z).}
 
   \vspace{2em}\df
 
-  \textcolor{gray}{\it // In Datafun}\\
+  \textcolor{gray}{\it // Datafun}\\
   fix ancestor = {\alt<2>{\bf}{}parent}\newline
   \phantom{fix ancestor}
   %$\cup$ (parent $\bullet$ ancestor)
@@ -506,7 +506,7 @@
 \end{frame}
 
 
-\begin{frame}{Static differentiation: $\Delta$, $\oplus$, $\delta$}\large
+\begin{frame}{Static differentiation}\large
   \vspace{-1em}
   Every type $A$ has a \emph{type of changes}, $\color{blue}\Delta A$.
   \pause
@@ -590,7 +590,7 @@
   \end{enumerate}
 
   \vspace{1em}\small
-  * Almost.
+  * In theory.
 \end{frame}
 
 \begin{frame}\Large
