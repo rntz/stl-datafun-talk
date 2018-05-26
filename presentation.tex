@@ -68,7 +68,7 @@ Recurse Center, March 2018}
 \maketitle
 
 
-\begin{frame}\centering\LARGE\bf Exploratory work \end{frame}
+\begin{frame}\centering\LARGE\bf Early stage work \end{frame}
 
 \begin{frame}\LARGE \centering
   \textbf{What if \textcolor{DarkOrchid}{programming languages}\\
@@ -163,7 +163,7 @@ Recurse Center, March 2018}
   \begin{minipage}{0.7\textwidth}
     \texttt{SELECT {\color{orange}parent}\\
       FROM {\color{Green}parentage}\\
-      WHERE {\color{violet}child = "Galadriel"}}
+      WHERE {\color{DarkOrchid}child = "Galadriel"}}
   \end{minipage}
 
   \pause
@@ -174,7 +174,7 @@ Recurse Center, March 2018}
   \begin{minipage}{1.0\textwidth}
     \df\tt \{ {\color{orange}parent}
     | {\color{Green}(parent, child) in parentage}\\
-    \phantom{\{ parent }, {\color{violet}child = "Galadriel"} \}
+    \phantom{\{ parent }, {\color{DarkOrchid}child = "Galadriel"} \}
   \end{minipage}
 \end{frame}
 
@@ -183,7 +183,7 @@ Recurse Center, March 2018}
     \tt SELECT DISTINCT {\color{orange}A.child, B.child}\\
     FROM {\color{Green}parentage A} INNER JOIN {\color{RoyalBlue}parentage B}\\
     ON {\alt<2->{\color{red}}{}A.parent = B.parent}
-    \\WHERE {\color{violet}A.child <> B.child}
+    \\WHERE {\color{DarkOrchid}A.child <> B.child}
   \end{minipage}
 
   \vspace{1.5em}
@@ -194,7 +194,7 @@ Recurse Center, March 2018}
     \df\tt\{ {\color{orange}(a,b)}
     | {\color{Green}({\alt<2->{\color{red}}{}parent}, a) in parentage}\\
     \phantom{\{ (a,b) }, {\color{RoyalBlue}({\alt<2->{\color{red}}{}parent}, b) in parentage}\\
-    \phantom{\{ (a,b) }, {\color{violet}not (a = b)} \}
+    \phantom{\{ (a,b) }, {\color{DarkOrchid}not (a = b)} \}
   \end{minipage}
 \end{frame}
 
@@ -233,7 +233,7 @@ Recurse Center, March 2018}
 \newcommand{\inftyloop}{\ensuremath{\infty\text{-loop}}}
 \newcommand{\elemexp}{{\alt<3>{{\color{red}print x}}{...}}}
 \newcommand{\aloop}{x in \alt<3-4>{\{\alt<3>{"hello"}{}\}}{EXPR1}}
-\newcommand{\bloop}{{\color{violet}%
+\newcommand{\bloop}{{\color{DarkOrchid}%
 y in \alt<3>{\{0,1\}}{\alt<4>{\color{red}\inftyloop}{EXPR2}}}%
 }
 

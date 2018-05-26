@@ -1,12 +1,9 @@
 * Exploratory work
-- system, here's why it's great
-- early stages
-- ideas behind DF, hope you like them as much as I do
+- more theory than implementation
+- pair with me!
 
 * PL vs DB
-- happy medium
-
-- at its core, lots of programs are about data
+- lotsa programs mostly about data
 - general purpose PLs don't make this easy
   how to represent it?
   want it in memory or on disk?
