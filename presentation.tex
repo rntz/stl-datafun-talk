@@ -1,53 +1,43 @@
 \documentclass[xcolor=table,usenames,dvipsnames,svgnames]{beamer}
 
-%% apparently this magic helps avoid the dreaded
-%% ``Too many math alphabets used in version normal''
-%% error. Yuk.
-\newcommand\hmmax{0}
-\newcommand\bmmax{0}
-%% end magic
+%% %% apparently this magic helps avoid the dreaded
+%% %% ``Too many math alphabets used in version normal''
+%% %% error. Yuk.
+%% \newcommand\hmmax{0}
+%% \newcommand\bmmax{0}
+%% %% end magic
 
-\usepackage{amssymb,amsmath,amsthm}
-\usepackage{latexsym}
+\usepackage{amssymb,amsmath,amsthm,latexsym}
+\usepackage{url,hyperref}
+\usepackage{mathpartir}         % \mathpar, \infer
+\usepackage{booktabs}           % \midrule
+\usepackage{nccmath}            % fix spacing
 
-\usepackage{array}
+% \usepackage{mathtools} % \dblcolon
+% \usepackage{accents}   % \underaccent
+% \usepackage{stmaryrd}  % \llbracket,\rrbracket
+% \usepackage{proof}     % \infer
+% \usepackage{graphicx}  % \scalebox, \rotatebox
 
-\usepackage{url}
-\usepackage{hyperref}
-
-%% uses the AMS Euler math font.
-%% \usepackage{euler}
-
-%% for coloneqq
-%% \usepackage{mathtools}
-
-%% %% for \underaccent
-%% \usepackage{accents}
-
-% for semantic brackets
-%% \usepackage{stmaryrd}
-
-%% % for inference rules
-%% \usepackage{proof}
-
-%% for mathpar environment
-\usepackage{mathpartir}
-
-% for \scalebox, \rotatebox
-%% \usepackage{graphicx}
-
-%% %% for drawing Hasse diagram
-%% \usepackage{tikz}
-
-%% %% for censoring things
-%% \usepackage{censor}
+% TODO: frame titles in small caps
+\usefonttheme{professionalfonts}
+\renewcommand{\familydefault}{\rmdefault}
+\usepackage{XCharter}
+%\usepackage[scaled=0.88]{librebaskerville} % .855
+\usepackage[semibold,scaled=0.988]{sourcesanspro}
+\usepackage[scaled=1.02,varqu,var0]{inconsolata}
+%\usepackage[libertine,scaled=1.086]{newtxmath}
+\usepackage{eulervm}\makeatletter\edef\zeu@Scale{1.0341}\makeatother
+\usepackage[bb=boondox]{mathalfa} % or bb=ams
+\usepackage{anyfontsize}
+\usepackage[T1]{fontenc}
 
 
 %% Commands
 \newcommand{\N}{\mathbb{N}}
 \newcommand{\x}{\times}
 
-%% wherever you see this color, it means runnable Datafun code.
+%% TODO: remove this.
 \newcommand{\df}{\color{RoyalBlue}}
 \renewcommand{\df}{}
 
@@ -57,9 +47,11 @@
 %% Metadata
 \title{Datafun}
 \subtitle{a functional query language}
+%% FIXME: causes shittons of warnings argh.
 \author{Michael Arntzenius
-  \newline\href{mailto:daekharel@gmail.com}{daekharel@gmail.com}
-  \newline\url{http://www.rntz.net/datafun}}
+  %% \newline\href{mailto:daekharel@gmail.com}{daekharel@gmail.com}
+  %% \newline\url{http://www.rntz.net/datafun}
+}
 \date{Strange Loop, September 2017\\
 Recurse Center, March 2018}
 
@@ -94,8 +86,8 @@ Recurse Center, March 2018}
 \begin{frame}{SQL}\large
   \begin{minipage}{0.4\textwidth}
     \centering
-    \begin{tabular}{l|l}
-      \textbf{Parent} & \textbf{Child}\\\hline
+    \begin{tabular}{ll}
+      \textbf{Parent} & \textbf{Child}\\\midrule
       Arathorn & Aragorn\\
       Drogo & Frodo\\
       E\"arwen & Galadriel\\
@@ -107,7 +99,7 @@ Recurse Center, March 2018}
   %% \pause
   \hfill
   %
-  \begin{minipage}{0.51\textwidth}
+  \begin{minipage}{0.53\textwidth}
     %% TODO: is ``parentage'' the best name?
     \texttt{SELECT parent\\FROM parentage\\WHERE child = "Galadriel"}
   \end{minipage}
@@ -117,8 +109,8 @@ Recurse Center, March 2018}
 \begin{frame}{Tables as sets}\large
   \begin{minipage}{0.4\textwidth}
     \centering
-    \begin{tabular}{l|l}
-      \textbf{Parent} & \textbf{Child}\\\hline
+    \begin{tabular}{ll}
+      \textbf{Parent} & \textbf{Child}\\\midrule
       Arathorn & Aragorn\\
       Drogo & Frodo\\
       E\"arwen & Galadriel\\
@@ -132,7 +124,7 @@ Recurse Center, March 2018}
   %
   \hfill{\LARGE =}\hfill
   %
-  \begin{minipage}{0.51\textwidth}
+  \begin{minipage}{0.53\textwidth}
     \centering
 
     \begin{tabular}{l}
@@ -312,17 +304,15 @@ y in \alt<3>{\{0,1\}}{\alt<4>{\color{red}\inftyloop}{EXPR2}}}%
 
 
 \begin{frame} \large \centering
-  \begin{minipage}{0.4\textwidth}
-    \centering
-    \begin{tabular}{l|l}
-      \textbf{Parent} & \textbf{Child}\\\hline
-      Arathorn & Aragorn\\
-      Drogo & Frodo\\
-      E\"arwen & Galadriel\\
-      Finarfin & Galadriel\\
-      \hfill\vdots & \hfill\vdots
-    \end{tabular}
-  \end{minipage}
+
+  \begin{tabular}{l@{\hskip 1.5em}l}
+    \textbf{Parent} & \textbf{Child}\\\midrule
+    Arathorn & Aragorn\\
+    Drogo & Frodo\\
+    E\"arwen & Galadriel\\
+    Finarfin & Galadriel\\
+    \hfill\vdots & \hfill\vdots
+  \end{tabular}
 
   \vspace{2em}
 
@@ -497,31 +487,31 @@ y in \alt<3>{\{0,1\}}{\alt<4>{\color{red}\inftyloop}{EXPR2}}}%
 \end{frame}
 
 
-\begin{frame}{Static differentiation}\large
+\begin{frame}{Static differentiation}
   \vspace{-1em}
   Every type $A$ has a \emph{type of changes}, $\color{blue}\Delta A$.
   \pause
-  \begin{eqnarray*}
-    \GD \mathbb{N} &=& \mathbb{Z}\\
-    \GD (A \x B) &=& \GD A \x \GD B
-  \end{eqnarray*}
+  \begin{align*}
+    \GD \mathbb{N} &= \mathbb{Z}\\
+    \GD (A \x B) &= \GD A \x \GD B
+  \end{align*}
 
   \pause Every type also gets an operator $\color{blue}\oplus_A : A \to \GD A \to A$.
   \pause
-  \begin{eqnarray*}
-    x \oplus_\N dx &=& x + dx\\
-    (x,y) \oplus_{A \x B} (dx,dy) &=& (x \oplus_A dx, y \oplus_B dy)
-  \end{eqnarray*}
+  \begin{align*}
+    x \oplus_\N dx &= x + dx\\
+    (x,y) \oplus_{A \x B} (dx,dy) &= (x \oplus_A dx, y \oplus_B dy)
+  \end{align*}
 
   \pause A function $f : A \to B$ gets a \emph{derivative},
   $\color{blue} \delta f : A \to \Delta A \to \Delta B$.
   \pause
-  $$\begin{array}{rclcl}
+  \[\setlength{\arraycolsep}{.25em}\begin{array}{rclcl}
     f(x) &=& x^2\\
     \delta f(x)(dx) &=& 2x\cdot dx+dx^2\\
     \pause
     f(x) + \delta f(x)(dx) &=& x^2 + 2x\cdot dx + dx^2 &=& (x + dx)^2
-  \end{array}$$
+  \end{array}\]
 
   %% If $M$ uses variables $x, y, z$,\\
   %% then $\color{blue}\delta M$ will use $x, y, z, \color{blue} dx, dy, dz$.
