@@ -534,60 +534,22 @@ y in \alt<3>{\{0,1\}}{\alt<4>{\color{red}\inftyloop}{EXPR2}}}%
 \begin{frame}
   \Large {\itshape ``A Theory of Changes for Higher-Order Languages:
     Incrementalizing $\lambda$-calculi by Static Differentiation''}%
-  \vspace{0.1em}\newline\normalsize [PLDI 2014]
-  \\\vspace{0.5em}
-  \small by Yufei Cai, Paolo G Giarrusso, Tillmann Rendel, and Klaus Ostermann
-\end{frame}
+  \\[.2em]
+  \normalsize [Cai, Giarrusso, et al., PLDI 2014]
 
-
-\begin{frame}{Static differentiation}
-  \vspace{-1em}
-  Every type $A$ has a \emph{type of changes}, $\color{blue}\Delta A$.
-  \pause
+  \vspace{1em}\pause\LARGE
   \begin{align*}
-    \GD \mathbb{N} &= \mathbb{Z}\\
-    \GD (A \x B) &= \GD A \x \GD B
+    f &: A \to B\\
+    \delta f &: A \to \Delta A \to \Delta B
   \end{align*}
 
-  \pause Every type also gets an operator $\color{blue}\oplus_A : A \to \GD A \to A$.
-  \pause
-  \begin{align*}
-    x \oplus_\N dx &= x + dx\\
-    (x,y) \oplus_{A \x B} (dx,dy) &= (x \oplus_A dx, y \oplus_B dy)
-  \end{align*}
-
-  \pause A function $f : A \to B$ gets a \emph{derivative},
-  $\color{blue} \delta f : A \to \Delta A \to \Delta B$.
-  \pause
-  \[\setlength{\arraycolsep}{.25em}\begin{array}{rclcl}
-    f(x) &=& x^2\\
-    \delta f(x)(dx) &=& 2x\cdot dx+dx^2\\
-    \pause
-    f(x) + \delta f(x)(dx) &=& x^2 + 2x\cdot dx + dx^2 &=& (x + dx)^2
-  \end{array}\]
-
-  %% If $M$ uses variables $x, y, z$,\\
-  %% then $\color{blue}\delta M$ will use $x, y, z, \color{blue} dx, dy, dz$.
-
-  %% $\color{blue} \delta M$ computes the \emph{change to $M$}\\
-  %% resulting from the changes $\color{blue} dx, dy, dz$ to its variables.
-
-  %% \begin{eqnarray*}
-  %% \Delta(A \x B) &=& \Delta A \x \Delta B\\
-  %% \Delta(A \to B) &=& A \to \Delta A \to \Delta B
-  %% \end{eqnarray*}
-\end{frame}
-
-
-\begin{frame}\centering\LARGE
-  \textbf{We've extended this to Datafun!}
 
 \end{frame}
 
 
 %% TODO:
 \begin{frame}{Finding fixed points faster with derivatives}
-  \large \parskip 1em
+  \large \parskip 1em\vspace{-1em}
   The na\"ive way to find fixed points looks like this:
   $${\emptyset \mapsto f(\emptyset) \mapsto f^2(\emptyset) \mapsto f^3(\emptyset) \mapsto ...}$$
   \pause
