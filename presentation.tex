@@ -220,23 +220,30 @@
 
 \begin{frame}\centering{\bf\huge But can it go fast?}\end{frame}
 
+%% \newcommand{\inftyloop}{\ensuremath{\infty\text{-loop}}}
+%% \newcommand{\elemexp}{(x,y)}
+%% \newcommand{\aloop}{x in \alt<3-4>{\{\alt<3>{{\color{red}print "hello"}}{}\}}{EXPR1}}
+%% \newcommand{\bloop}{{\color{DarkOrchid}%
+%% y in \alt<3>{\{0,1\}}{\alt<4>{\color{red}\inftyloop}{EXPR2}}}%
+%% }
+
 \newcommand{\inftyloop}{\ensuremath{\infty\text{-loop}}}
-\newcommand{\elemexp}{{\alt<3>{{\color{red}print x}}{...}}}
-\newcommand{\aloop}{x in \alt<3-4>{\{\alt<3>{"hello"}{}\}}{EXPR1}}
+\newcommand{\elemexp}{(x,y)}
+\newcommand{\aloop}{x in \alt<3-4>{\{\alt<3>{0,1}{}\}}{EXPR1}}
 \newcommand{\bloop}{{\color{DarkOrchid}%
-y in \alt<3>{\{0,1\}}{\alt<4>{\color{red}\inftyloop}{EXPR2}}}%
+y in \alt<3>{\{{\color{red}print "hello"}\}}{\alt<4>{\color{red}\inftyloop}{EXPR2}}}%
 }
 
 \begin{frame}{Loop reordering}
   \large\centering
-  \texttt{\{ \elemexp~| \aloop{}, \bloop{} \}}
+  \texttt{\{\elemexp~| \aloop{}, \bloop{}\}}
   \alt<4>{{$~\Longrightarrow~$\{\}}\phantom{-loo}\,}{}
   %
   \vspace{0.5em}\\
   {\Large \alt<1>{=?}{\alt<2>{\color{red}}{}$\neq$}}
   %
   \vspace{0.5em}\\
-  \texttt{\{ \elemexp~| \bloop{}, \aloop{} \}}
+  \texttt{\{\elemexp~| \bloop{}, \aloop{}\}}
   \alt<4>{{\color{red}$~\Longrightarrow~\inftyloop$}}{}
 
   \pause
