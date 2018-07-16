@@ -309,13 +309,12 @@ y in \alt<3>{\{{\color{red}print "hello"}\}}{\alt<4>{\color{red}\inftyloop}{EXPR
 
 
 \begin{frame}{Recipe for a functional query language}\Large
-  %% \textbf{Recipe for a functional query language:}\vspace{0.5em}
-
   \begin{enumerate}\itemsep 1.5em
   \item Take a pure, total functional language
   \item Add sets and set comprehensions
   \item Normalize away higher-order functions?
   \item Optimize!
+  \item ???
   \end{enumerate}
 \end{frame}
 
@@ -387,14 +386,14 @@ y in \alt<3>{\{{\color{red}print "hello"}\}}{\alt<4>{\color{red}\inftyloop}{EXPR
 \newcommand{\atom}[1]{\textcolor{brown}{#1}}
 \begin{frame}{Datalog in a nutshell}
   \large
-  \atom{\alt<2-3>{ancestor($X$,$Z$)}{$X$ is $Z$'s ancestor}}
+  \atom{\alt<2-3>{ancestor(X,Z)}{X is Z's ancestor}}
   \alt<3>{:-}{if}
-  \atom{\alt<2-3>{parent($X$, $Z$)}{$X$ is $Z$'s parent}}.
+  \atom{\alt<2-3>{parent(X,Z)}{X is Z's parent}}.
   \\\vspace{1em}
-  \atom{\alt<2-3>{ancestor($X$, $Z$)}{$X$ is $Z$'s ancestor}}
+  \atom{\alt<2-3>{ancestor(X,Z)}{X is Z's ancestor}}
   \alt<3>{:-}{if}
-  \atom{\alt<2-3>{parent($X$, $Y$)}{$X$ is $Y$'s parent}}\alt<3>{,}{ and}
-  \atom{\alt<2-3>{ancestor($Y$, $Z$)}{$Y$ is $Z$'s ancestor}}.
+  \atom{\alt<2-3>{parent(X,Y)}{X is Y's parent}}\alt<3>{,}{ and}
+  \atom{\alt<2-3>{ancestor(Y,Z)}{Y is Z's ancestor}}.
 
   %% \vspace{2em}
   %% \uncover<3>{\bf This is valid Datalog.}
@@ -417,17 +416,17 @@ y in \alt<3>{\{{\color{red}print "hello"}\}}{\alt<4>{\color{red}\inftyloop}{EXPR
 \newcommand{\premisea}{\color{Blue}}
 \newcommand{\premiseb}{\color{Rhodamine}}
 \begin{frame}{}
+  \vspace{-1em}\parskip 0.5em
 
-  {
-  \textbf{Procedure:}
+  %% \textbf{Procedure:}
   \begin{enumerate}\itemsep 0em
   \item Pick a rule.
   \item Find facts satisfying its premises.
   \item Add its conclusion to the known facts.
-  \end{enumerate}}
+  \end{enumerate}
 
   \textbf{Rules:}
-  \begin{quote}\sf
+  \begin{quote}\ttfamily
     {\alt<2-4,6>{\fires}{}
       {\alt<4,6>{\conc}{}ancestor(X,Z)} :-
       {\alt<3-4,6>{\premisea{}}{}parent(X,Z)}.}\\
@@ -438,7 +437,7 @@ y in \alt<3>{\{{\color{red}print "hello"}\}}{\alt<4>{\color{red}\inftyloop}{EXPR
   \end{quote}
 
   \textbf{Facts:}
-  \begin{quote}\sf
+  \begin{quote}\ttfamily
     {\alt<3-4,8>{\premisea}{} parent(Idril, E\"arendil).}\\
     {\alt<6>{\premisea}{} parent(E\"arendil, Elros).}\\
     \uncover<4->
