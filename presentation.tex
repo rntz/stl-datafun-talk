@@ -301,6 +301,18 @@ y in \alt<3>{\{0,1\}}{\alt<4>{\color{red}\inftyloop}{EXPR2}}}%
 \end{frame}
 
 
+\begin{frame}{Recipe for a functional query language}\Large
+  %% \textbf{Recipe for a functional query language:}\vspace{0.5em}
+
+  \begin{enumerate}\itemsep 1.5em
+  \item Take a functional language
+  \item Add sets and set comprehensions
+  \item Normalize away higher-order functions?
+  \item Optimize!
+  \end{enumerate}
+\end{frame}
+
+
 \begin{frame}{}\large\parskip 0.4em
   \textsc{What have we gained?}
   \begin{itemize}\itemsep 0.5em
@@ -316,7 +328,7 @@ y in \alt<3>{\{0,1\}}{\alt<4>{\color{red}\inftyloop}{EXPR2}}}%
   \textsc{At what cost?}
   \begin{itemize}
   \item \textbf{Implementation complexity}:\\
-    {\small GC, closures, nested sets, optimizing comprehensions...}
+    {\small GC, nested sets, optimizing comprehensions...}
   \item \textbf{Re-inventing the wheel}:\\
     {\small persistence, transactions, replication...}
   \end{itemize}
@@ -423,11 +435,11 @@ y in \alt<3>{\{0,1\}}{\alt<4>{\color{red}\inftyloop}{EXPR2}}}%
     {\alt<3-4,8>{\premisea}{} parent(Idril, E\"arendil).}\\
     {\alt<6>{\premisea}{} parent(E\"arendil, Elros).}\\
     \uncover<4->
-    {\alt<4>{\conc}{}ancestor(Idril, E\"arendil).\quad \alt<4>{\it(new!)}{}}\\
+    {\alt<4>{\conc}{}ancestor(Idril, E\"arendil).\quad \alt<4>{\itshape(new!)}{}}\\
     \uncover<6->
-    {\alt<6>{\conc}{}\alt<8>{\premiseb}{}ancestor(E\"arendil, Elros).\quad\alt<6>{\it(new!)}{}}\\
+    {\alt<6>{\conc}{}\alt<8>{\premiseb}{}ancestor(E\"arendil, Elros).\quad\alt<6>{\itshape(new!)}{}}\\
     \uncover<8->
-    {\alt<8>{\conc}{}{ancestor(Idril, Elros).\quad \alt<8>{\it(new!)}{}}}
+    {\alt<8>{\conc}{}{ancestor(Idril, Elros).\quad \alt<8>{\itshape(new!)}{}}}
     \alt<9>{}{}
   \end{quote}
 \end{frame}
@@ -457,15 +469,15 @@ y in \alt<3>{\{0,1\}}{\alt<4>{\color{red}\inftyloop}{EXPR2}}}%
   fix ancestor = {\alt<2>{\bf}{}parent}\newline
   \phantom{fix ancestor}
   %$\cup$ (parent $\bullet$ ancestor)
-  $\cup$ \alt<3>{\bf}{}\{(x,z) $\mid$ (x,y) in parent\newline
-  \phantom{\rm fix ancestor $\cup$ }\phantom{\{(x,z)}, (y,z) in ancestor\}
+  $\cup$ \alt<3>{\bf}{}\{(x,z) $\mid$ (x,y) in parent,\newline
+  \phantom{\rm fix ancestor $\cup$ }\phantom{\{(x,z) $\mid$} (y,z) in ancestor\}
 \end{frame}
 
 
 \begin{frame}\large
   \textbf{Repeatedly applying:}
   \begin{center}
-    ${\color{blue}X} \longmapsto$ parent $\cup$ \{(x,z) $\mid$ (x,y) in parent, (y,z) in {\color{blue}X}\}
+    {\color{blue}X} $\longmapsto$ parent $\cup$ \{(x,z) $\mid$ (x,y) in parent, (y,z) in {\color{blue}X}\}
   \end{center}
 
   \parskip 0.5em
