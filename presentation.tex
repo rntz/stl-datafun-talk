@@ -459,25 +459,29 @@ y in \alt<3>{\{{\color{red}print "hello"}\}}{\alt<4>{\color{red}\inftyloop}{EXPR
 
   \vspace{2em}
 
-  \uncover<5->{\LARGE\centering\df fix x = {\it ... function of x ...}}
+  \uncover<5->{\LARGE\centering\df fix ($\lambda$x. ...)}
 \end{frame}
 
 
 \begin{frame}
-  \Large
+  \large\ttfamily
 
-  \textcolor{gray}{\it // Datalog}\\
-  {\alt<2>{\bf}{}ancestor(X,Z) :- parent(X,Z).}\\
-  {\alt<3>{\bf}{}ancestor(X,Z) :- parent(X,Y), ancestor(Y,Z).}
+  \textcolor{gray}{\itshape // Datalog}\\
+  {\alt<1>{\bfseries}{}{\color{Rhodamine}ancestor}(X,Z) :- parent(X,Z).}\\
+  {\alt<2>{\bfseries}{}{\color{Rhodamine}ancestor}(X,Z) :- parent(X,Y), {\color{Rhodamine}ancestor}(Y,Z).}
 
-  \vspace{2em}\df
+  \vspace{2em}
 
-  \textcolor{gray}{\it // Datafun}\\
-  fix ancestor = {\alt<2>{\bf}{}parent}\newline
-  \phantom{fix ancestor}
-  %$\cup$ (parent $\bullet$ ancestor)
-  $\cup$ \alt<3>{\bf}{}\{(x,z) $\mid$ (x,y) in parent,\newline
-  \phantom{\rm fix ancestor $\cup$ }\phantom{\{(x,z) $\mid$} (y,z) in ancestor\}
+  \textcolor{gray}{\itshape // Datafun}\\
+  fix ($\lambda${\color{Rhodamine}a}.\ {\alt<1>{\bfseries}{}parent}\newline
+  \phantom{fix (}$\cup$ \alt<2>{\bfseries}{}\{(x,z) $\mid$ (x,y) in parent,\newline
+  \hspace*{3.66em}\phantom{\{(x,z) $\mid$} (y,z) in {\color{Rhodamine}a}\})
+
+  %% fix ancestor = {\alt<2>{\bfseries}{}parent}\newline
+  %% \phantom{fix ancestor}
+  %% %$\cup$ (parent $\bullet$ ancestor)
+  %% $\cup$ \alt<3>{\bfseries}{}\{(x,z) $\mid$ (x,y) in parent,\newline
+  %% \phantom{\rm fix ancestor $\cup$ }\phantom{\{(x,z) $\mid$} (y,z) in ancestor\}
 \end{frame}
 
 
