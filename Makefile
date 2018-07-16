@@ -11,6 +11,8 @@ PDFS   := $(TEXS:.tex=.pdf)
 JUNK   := $(TEXS:.tex=.dvi) $(TEXS:.tex=.bbl)
 JUNK   += $(TEXS:.tex=.snm) $(TEXS:.tex=.nav)
 
+LATEXRUN := ~/e/r/rntztex/latexrun/latexrun
+
 .PHONY: all watch view clean
 all: $(PDFS)
 watch: all
@@ -23,10 +25,14 @@ clean:
 	latexmk -c
 	rm -f $(PDFS) $(JUNK)
 
-%.pdf: %.tex $(DEPENDS)
-	latexmk --pdf $<
-	# pdflatex $<
-	# rubber --pdf $<
+# %.pdf: %.tex $(DEPENDS)
+# 	latexmk --pdf $<
+# 	# pdflatex $<
+# 	# rubber --pdf $<
+
+.PHONY: FORCE
+%.pdf: %.tex FORCE
+	$(LATEXRUN) -- $<
 
 sources.zip: $(DEPENDS)
 	rm -f $@
