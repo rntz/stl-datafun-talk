@@ -22,10 +22,10 @@
 % TODO: frame titles in small caps
 \usefonttheme{professionalfonts}
 \renewcommand{\familydefault}{\rmdefault}
-\usepackage{XCharter}
+\usepackage[scaled=0.98]{XCharter}
 %\usepackage[scaled=0.88]{librebaskerville} % .855
-\usepackage[semibold,scaled=0.988]{sourcesanspro}
-\usepackage[scaled=1.02,varqu,var0]{inconsolata}
+\usepackage[semibold,scaled=0.968]{sourcesanspro}
+\usepackage[scaled=1.0328,varqu,var0]{inconsolata}
 %\usepackage[libertine,scaled=1.086]{newtxmath}
 \usepackage{eulervm}\makeatletter\edef\zeu@Scale{1.0341}\makeatother
 \usepackage[bb=boondox]{mathalfa} % or bb=ams
@@ -48,19 +48,17 @@
 \title{Datafun}
 \subtitle{a functional query language}
 %% FIXME: causes shittons of warnings argh.
-\author{Michael Arntzenius
-  %% \newline\href{mailto:daekharel@gmail.com}{daekharel@gmail.com}
-  %% \newline\url{http://www.rntz.net/datafun}
-}
-\date{Strange Loop, September 2017\\
-Recurse Center, March 2018}
+\author{\texorpdfstring{Michael Arntzenius\newline
+  \href{mailto:daekharel@gmail.com}{daekharel@gmail.com}\newline
+  \url{http://www.rntz.net/datafun}}{Michael Arntzenius}}
+\date{Curry On, July 2018}
 
 \begin{document}
 
 \maketitle
 
 
-\begin{frame}\centering\LARGE\bf Early stage work \end{frame}
+\begin{frame}\centering\LARGE\bf Early-stage research \end{frame}
 
 \begin{frame}\LARGE \centering
   \textbf{What if \textcolor{DarkOrchid}{programming languages}\\
@@ -129,11 +127,11 @@ Recurse Center, March 2018}
 
     \begin{tabular}{l}
       \color{gray}{// set of (parent, child) pairs}\\
-      \{\hspace{1pt}(Arathorn, Aragorn)\\
-      , (Drogo, Frodo)\\
-      , (E\"arwen, Galadriel)\\
-      , (Finarfin, Galadriel)\\
-      \,...\,\} \phantom{\vdots}
+      \{(Arathorn, Aragorn),\\
+      \phantom{\{}(Drogo, Frodo),\\
+      \phantom{\{}(E\"arwen, Galadriel),\\
+      \phantom{\{}(Finarfin, Galadriel),\\
+      \phantom{\{}...\,\} \phantom{\vdots}
     \end{tabular}
 
     %% \vspace{1.5em}{\large \textsc{as a relation}}
@@ -229,7 +227,8 @@ Recurse Center, March 2018}
 y in \alt<3>{\{0,1\}}{\alt<4>{\color{red}\inftyloop}{EXPR2}}}%
 }
 
-\begin{frame}{Loop reordering}\large\centering
+\begin{frame}{Loop reordering}
+  \large\centering
   \texttt{\{ \elemexp~| \aloop{}, \bloop{} \}}
   \alt<4>{{$~\Longrightarrow~$\{\}}\phantom{-loo}\,}{}
   %
@@ -256,7 +255,49 @@ y in \alt<3>{\{0,1\}}{\alt<4>{\color{red}\inftyloop}{EXPR2}}}%
   \item Take a \textbf{pure, total} functional language
   \item Add sets and set comprehensions
   \item {\bf Optimize!}
+  \item {\color{red} ... done?}
   \end{enumerate}
+\end{frame}
+
+
+\begin{frame}\centering\huge\bfseries But what about closures?\end{frame}
+
+\begin{frame}\Large
+  \emph{``A Practical Theory of Language-Integrated Query''}
+  \\[.2em]\large
+  [Cheney, Lindley, \& Wadler, ICFP 2013]\\[.1em]
+  sez:
+
+  \vspace{.5em}
+  \centering\Large {\bfseries Just normalize} (i.e.\ \textbf{inline everything})\textbf{!}*
+
+  \vspace{.5em}\large
+  *Requires totality.
+\end{frame}
+
+
+\begin{frame}{Recipe for a functional query language, v3}\Large
+  \begin{enumerate}\itemsep 1.5em
+  \item Take a pure, total functional language
+  \item Add sets and set comprehensions
+  \item {\bfseries Normalize} away higher-order functions?
+  \item Optimize!
+  \item {\color{red} ... done?}
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \centering\huge\bfseries How do we execute queries efficiently, anyway?
+\end{frame}
+
+\begin{frame}
+  \Large
+  \emph{``Leapfrog Triejoin: a simple, worst-case optimal join algorithm''}
+  \\[.2em]\large
+  [Todd Veldhuizen, arXiv 2013]
+
+  \pause\vspace{1em}
+  \huge\centering\color{red} Patented! :(
 \end{frame}
 
 
@@ -353,7 +394,7 @@ y in \alt<3>{\{0,1\}}{\alt<4>{\color{red}\inftyloop}{EXPR2}}}%
 
 
 \newcommand{\conc}{\color{Green}}
-\newcommand{\fires}{\bf}
+\newcommand{\fires}{\bfseries}
 \newcommand{\premisea}{\color{Blue}}
 \newcommand{\premiseb}{\color{Rhodamine}}
 \begin{frame}{}
@@ -479,8 +520,8 @@ y in \alt<3>{\{0,1\}}{\alt<4>{\color{red}\inftyloop}{EXPR2}}}%
 \end{frame}
 
 \begin{frame}
-  \Large {\it ``A Theory of Changes for Higher-Order Languages:\\
-    Incrementalizing $\lambda$-calculi by Static Differentiation''}
+  \Large {\itshape ``A Theory of Changes for Higher-Order Languages:
+    Incrementalizing $\lambda$-calculi by Static Differentiation''}%
   \vspace{0.1em}\newline\normalsize [PLDI 2014]
   \\\vspace{0.5em}
   \small by Yufei Cai, Paolo G Giarrusso, Tillmann Rendel, and Klaus Ostermann
@@ -527,9 +568,7 @@ y in \alt<3>{\{0,1\}}{\alt<4>{\color{red}\inftyloop}{EXPR2}}}%
 
 
 \begin{frame}\centering\LARGE
-  \textbf{We've extended this technique\\ to handle all of Datafun!}
-
-  \vspace{1em}\small (As of about three weeks ago.)
+  \textbf{We've extended this to Datafun!}
 
 \end{frame}
 
@@ -565,13 +604,14 @@ y in \alt<3>{\{0,1\}}{\alt<4>{\color{red}\inftyloop}{EXPR2}}}%
 \begin{frame}{Takeaways}\large
   \begin{enumerate}\itemsep 1em
   \item Set comprehensions = queries
-  \item Fixed points = recursive queries {\it\small (like Datalog)}
+  \item Purity \& totality = fearless optimisation
+  \item Fixed points = recursive queries {\itshape\small (\`a la Datalog)}
   \item Incremental computation = faster fixed points
-  \item Datafun has all three!*
+  %% \item Datafun has all three!*
   \end{enumerate}
 
-  \vspace{1em}\small
-  * In theory.
+  %% \vspace{1em}\small
+  %% * In theory.
 \end{frame}
 
 \begin{frame}\Large
